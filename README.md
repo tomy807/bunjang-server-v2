@@ -6,6 +6,7 @@
 2. jdbcTemplate->JPA 변경
 3. JwtToken 설정 변경
 4. WebSecurityConfig 설정 변경
+5. MySql->H2(테스트용)
 
 
 #### @ControllerAdvice
