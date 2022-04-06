@@ -7,7 +7,13 @@
 3. JwtToken 설정 변경
 4. WebSecurityConfig 설정 변경
 5. MySql->H2(테스트용)
-
+## 2022-04-06
+1. Spring Security 를 이용하여 Jwt을 설정하면 필터에서 적용되기 때문에 Controller까지 오지않기 때문에
+   RestControllerAdvice에서 예외처리를 할수 없다.
+2. 필터에서 예외처리하기 위해 AuthenticationEntryPoint,AccessDeniedHandler를 
+필터에 추가하여 exception이 발생하면 필터에서 잡아
+주도록 추가하였다.
+3. 
 
 #### @ControllerAdvice
 Controller에 적용하기 위해 고안된 어노테이션\
