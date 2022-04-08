@@ -4,6 +4,7 @@ package com.example.bunjangv2.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
@@ -11,16 +12,17 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CategorySmall extends BaseTimeEntity {
+@DynamicInsert
+public class CategorySmall  {
 
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_small_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_large_id")
+    @JoinColumn(name = "category_middle_id")
     private CategoryMiddle categoryMiddle;
 
     @Column(nullable = false, length = 40)

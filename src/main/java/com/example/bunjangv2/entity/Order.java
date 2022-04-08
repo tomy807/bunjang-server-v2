@@ -1,8 +1,10 @@
 package com.example.bunjangv2.entity;
 
+import com.example.bunjangv2.src.order.dto.OrderDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
@@ -10,11 +12,12 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@DynamicInsert
 @Table(name = "orders")
 public class Order extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
     private Long id;
 
@@ -38,5 +41,17 @@ public class Order extends BaseTimeEntity {
     @Column(length = 20)
     private String cancelReason;
 
+    @Column(columnDefinition = "int DEFAULT 0")
+    private Integer totalPrice;
 
+
+
+    public Order(User user, Product product, OrderDto orderDto,int totalPrice) {
+
+        this.user = user;
+        this.product = product;
+        this.tradingMethod = orderDto.getTradingMethod();
+        this.payMethod = orderDto.getPayMethod();
+        this.totalPrice = totalPrice;
+    }
 }

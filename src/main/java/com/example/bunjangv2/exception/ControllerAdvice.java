@@ -10,6 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,6 +21,24 @@ public class ControllerAdvice {
     @ExceptionHandler(AlreadyExistEmailException.class)
     public ExceptionResponse alreadyExistEmailException(AlreadyExistEmailException e) {
         return new ExceptionResponse(false, 2017, e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    //판매중이 아닌 상품을 구매하려고 시도
+    @ExceptionHandler(NotSellingProduct.class)
+    public ExceptionResponse notSellingProduct(NotSellingProduct e) {
+        return new ExceptionResponse(false, 2018, e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    //판매중이 아닌 상품을 구매하려고 시도
+    @ExceptionHandler(NotEnoughMoney.class)
+    public ExceptionResponse notEnoughMoney(NotEnoughMoney e) {
+        return new ExceptionResponse(false, 2019, e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    //판매중이 아닌 상품을 구매하려고 시도
+    @ExceptionHandler(LimitAddressCount.class)
+    public ExceptionResponse limitAddressCount(LimitAddressCount e) {
+        return new ExceptionResponse(false, 2020, e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
     }
 
     //Validation 예외처리
@@ -43,6 +62,9 @@ public class ControllerAdvice {
         return new ResponseEntity<>(errorCode, errorCode.getHttpStatus());
     }
 
-
+    @ExceptionHandler(value = EntityNotFoundException.class)
+    public ExceptionResponse entityNotFoundException(EntityNotFoundException e) {
+        return new ExceptionResponse(false, 2020, e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 
 }

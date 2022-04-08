@@ -18,7 +18,6 @@ public class BaseResponse<T> {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T result;
 
-    // 요청에 성공한 경우
     public BaseResponse(T result) {
         this.isSuccess = true;
         this.message = "요청에 성공하였습니다.";

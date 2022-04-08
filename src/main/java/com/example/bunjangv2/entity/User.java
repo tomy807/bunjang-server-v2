@@ -1,13 +1,11 @@
 package com.example.bunjangv2.entity;
 
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
@@ -16,10 +14,12 @@ import java.util.Collection;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "users")
+@DynamicInsert
 public class User extends BaseTimeEntity implements UserDetails {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
 
@@ -44,7 +44,7 @@ public class User extends BaseTimeEntity implements UserDetails {
     @Column(length = 200)
     private String profileUrl;
 
-    @Column(columnDefinition = "integer DEFAULT 0")
+    @Column(columnDefinition = "integer DEFAULT 1000000")
     private Integer point;
 
     @Column(columnDefinition = "TEXT")

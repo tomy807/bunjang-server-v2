@@ -13,7 +13,8 @@
 2. 필터에서 예외처리하기 위해 AuthenticationEntryPoint,AccessDeniedHandler를 
 필터에 추가하여 exception이 발생하면 필터에서 잡아
 주도록 추가하였다.
-3. 
+3. 상품을 등록하기 위한 Api 만드는중(DTO와 Entity 매핑 관련하여 방법을 찾는중)
+
 
 #### @ControllerAdvice
 Controller에 적용하기 위해 고안된 어노테이션\
