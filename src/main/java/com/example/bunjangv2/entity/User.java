@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Getter
@@ -14,7 +15,7 @@ import java.util.Collection;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "users")
+@Table(name = "user")
 @DynamicInsert
 public class User extends BaseTimeEntity implements UserDetails {
 
@@ -56,9 +57,27 @@ public class User extends BaseTimeEntity implements UserDetails {
     @Column(length = 20)
     private String birthDate;
 
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<Product> products;
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<Address> addresses;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Order> orders;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Favorite> favorites;
+
+    @OneToMany(mappedBy = "fromUser", cascade = CascadeType.ALL)
+    private List<Follow> followings;
+
+    @OneToMany(mappedBy = "toUser", cascade = CascadeType.ALL)
+    private List<Follow> followers;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+
         return null;
     }
 

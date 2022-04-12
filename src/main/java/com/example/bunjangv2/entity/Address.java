@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "addresses")
+@Table(name = "address")
 @DynamicInsert
 public class Address extends BaseTimeEntity {
 
@@ -44,5 +44,10 @@ public class Address extends BaseTimeEntity {
         this.address = deliveryAddressDto.getAddress();
         this.detailAddress = deliveryAddressDto.getDetailAddress();
         this.addressType = addressType;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+        user.getAddresses().add(this);
     }
 }

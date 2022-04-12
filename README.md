@@ -14,8 +14,31 @@
 필터에 추가하여 exception이 발생하면 필터에서 잡아
 주도록 추가하였다.
 3. 상품을 등록하기 위한 Api 만드는중(DTO와 Entity 매핑 관련하여 방법을 찾는중)
+## 2022-04-08
+1. 상품 생성 API 
+- (1) 상품에 직거래 장소를 입력하지 않았을 경우 "지역정보없음"으로 자동 저장 
+- (2) 만약 직거래 장소를 선택하고 싶다면 Address에 등록한 MAIN direct Address를 선택한다
+2. Address 생성 API 
+- (1) direct 장소 등록-> 직거래 장소를 등록한다.
+- (2) delivery 주소 등록 -> 배달 받는 주소를 등록한다.
+- (3) 공통 
+- TYPE에는 MAIN과 SUB가 있어서 MAIN을 자동으로 가져온다. 
+- 주소는 총 3개까지 동록할수 있다.
+- MAIN이 이미 있는데 MAIN을 또 등록하면 이미 등록된 MAIN은 SUB로 바뀐다.
+## 2022-04-09
+1. 주문 생성 API
+- (1) 직거래 주문 방법-> 상품에 저장된 직거래 장소를 가져온다.
+- (2) 배달 주문 방법-> 자신의 Address에 저장된 MAIN을 주문에 저장한다.
+- 공통
+- 상품의 개수는 한개 줄어들고 만약 상품의 개수가 0이면 상품 상태는 RESERVED로 바뀐다.
+- 구매자의 point는 상품 가격 만큼 줄어들고 판매자는 상품 가격 만큼 증가한다.
+- 만약 구매자의 point 가 상품 가격 보다 적으면 예외를 던져준다.
 
-
+---- 오류 ----
+#### LazyInitializationException
+- LazyInitializationException: failed to lazily initialize a collection of role:
+- @AuthenticationPrincipal User user 으로 user을 서비스에 넘기면 영속성 컨텍스트에 인식이 안됨
+- 서비스에서 다시 user을 불러오게 해서 오류 해결
 #### @ControllerAdvice
 Controller에 적용하기 위해 고안된 어노테이션\
 모든 @Controller에 대한, 전역적으로 발생할 수 있는 예외를 잡아서 처리할 수 있다.

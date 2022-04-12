@@ -13,7 +13,8 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @DynamicInsert
-public class CategorySmall  {
+@Table(name = "category_small")
+public class CategorySmall {
 
 
     @Id

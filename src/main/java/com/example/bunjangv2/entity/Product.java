@@ -13,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "products")
+@Table(name = "product")
 @DynamicInsert
 public class Product extends BaseTimeEntity {
 
@@ -69,37 +69,46 @@ public class Product extends BaseTimeEntity {
     @Column(length = 30, columnDefinition = "varchar(30) DEFAULT '지역 정보 없음'")
     private String directAddress;
 
-//    public Product createProduct(ProductDto productDto,User user) {
-//        this.user = user;
-//        this.categoryLarge = productDto.getCategoryLarge();
-//        this.categoryMiddle = categoryMiddle;
-//        this.categorySmall = categorySmall;
-//        this.title = title;
-//        this.productStatus = productStatus;
-//        this.exchangePossible = exchangePossible;
-//        this.price = price;
-//        this.shippingFee = shippingFee;
-//        this.introduction = introduction;
-//        this.quantity = quantity;
-//        this.sellStatus = sellStatus;
-//        this.securePayment = securePayment;
-//    }
+    public static Product createProduct(ProductDto productDto, CategoryLarge categoryLarge, CategoryMiddle categoryMiddle, CategorySmall categorySmall, User user,String directAddress) {
+        Product product = new Product();
+        product.setUser(user);
+        product.setCategoryLarge(categoryLarge);
+        product.setCategoryMiddle(categoryMiddle);
+        product.setCategorySmall(categorySmall);
+        product.setTitle(productDto.getTitle());
+        product.setProductStatus(productDto.getProductStatus());
+        product.setExchangePossible(productDto.getExchangePossible());
+        product.setPrice(productDto.getPrice());
+        product.setShippingFee(productDto.getShippingFee());
+        product.setIntroduction(productDto.getIntroduction());
+        product.setQuantity(productDto.getQuantity());
+        product.setSellStatus(productDto.getSellStatus());
+        product.setSecurePayment(productDto.getSecurePayment());
+        product.setDirectAddress(directAddress);
+        return product;
+    }
 
+    public Product (ProductDto productDto, CategoryLarge categoryLarge, CategoryMiddle categoryMiddle, CategorySmall categorySmall, User user,String directAddress) {
 
-//    public Product(Long id, User user, CategoryLarge categoryLarge, CategoryMiddle categoryMiddle, CategorySmall categorySmall, String title, String productStatus, String exchangePossible, Integer price, String shippingFee, String introduction, Integer quantity, String sellStatus, String securePayment) {
-//        this.id = id;
-//        this.user = user;
-//        this.categoryLarge = categoryLarge;
-//        this.categoryMiddle = categoryMiddle;
-//        this.categorySmall = categorySmall;
-//        this.title = title;
-//        this.productStatus = productStatus;
-//        this.exchangePossible = exchangePossible;
-//        this.price = price;
-//        this.shippingFee = shippingFee;
-//        this.introduction = introduction;
-//        this.quantity = quantity;
-//        this.sellStatus = sellStatus;
-//        this.securePayment = securePayment;
-//    }
+        this.user = user;
+        this.setUser(user);
+        this.categoryLarge = categoryLarge;
+        this.categoryMiddle = categoryMiddle;
+        this.categorySmall = categorySmall;
+        this.title = productDto.getTitle();
+        this.productStatus = productDto.getProductStatus();
+        this.exchangePossible = productDto.getExchangePossible();
+        this.price = productDto.getPrice();
+        this.shippingFee = productDto.getShippingFee();
+        this.introduction = productDto.getIntroduction();
+        this.quantity = productDto.getQuantity();
+        this.sellStatus = productDto.getSellStatus();
+        this.securePayment = productDto.getSecurePayment();
+        this.directAddress = directAddress;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+        user.getProducts().add(this);
+    }
 }

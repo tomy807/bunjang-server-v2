@@ -13,6 +13,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @DynamicInsert
+@Table(name = "category_middle")
 public class CategoryMiddle  {
 
 

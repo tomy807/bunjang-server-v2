@@ -41,6 +41,11 @@ public class ControllerAdvice {
         return new ExceptionResponse(false, 2020, e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
     }
 
+    @ExceptionHandler(ParameterException.class)
+    public ExceptionResponse parameterException(ParameterException e) {
+        return new ExceptionResponse(false, 2021, e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+    }
+
     //Validation 예외처리
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity postValidation(MethodArgumentNotValidException e) {

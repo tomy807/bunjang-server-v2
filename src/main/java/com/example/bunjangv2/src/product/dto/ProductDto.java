@@ -52,6 +52,8 @@ public class ProductDto {
 
     private String securePayment;
 
+    private String directAddress;
+
     private static ModelMapper modelMapper = new ModelMapper();
 
     public static ProductDto of(Product product) {
@@ -74,6 +76,7 @@ public class ProductDto {
         this.productStatus = product.getProductStatus();
         this.exchangePossible = product.getExchangePossible();
         this.securePayment = product.getSecurePayment();
+        this.directAddress = product.getDirectAddress();
     }
 
 

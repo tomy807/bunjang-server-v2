@@ -8,7 +8,7 @@ import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
-@Entity
+@Entity(name = "Orders")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -44,14 +44,21 @@ public class Order extends BaseTimeEntity {
     @Column(columnDefinition = "int DEFAULT 0")
     private Integer totalPrice;
 
+    @Column(length = 200)
+    private String address;
 
-
-    public Order(User user, Product product, OrderDto orderDto,int totalPrice) {
+    public Order(User user, Product product, OrderDto orderDto, int totalPrice,String address) {
 
         this.user = user;
         this.product = product;
         this.tradingMethod = orderDto.getTradingMethod();
         this.payMethod = orderDto.getPayMethod();
         this.totalPrice = totalPrice;
+        this.address = address;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+        user.getOrders().add(this);
     }
 }

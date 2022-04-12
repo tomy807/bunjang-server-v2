@@ -12,7 +12,8 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @DynamicInsert
-public class CategoryLarge  {
+@Table(name = "category_large")
+public class CategoryLarge {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -3,10 +3,12 @@ package com.example.bunjangv2.src.category;
 import com.example.bunjangv2.entity.CategoryLarge;
 import com.example.bunjangv2.entity.CategoryMiddle;
 import com.example.bunjangv2.entity.CategorySmall;
+import com.example.bunjangv2.exception.CategoryNotFoundException;
 import com.example.bunjangv2.src.category.dto.CategoryDto;
 import com.example.bunjangv2.src.category.dto.CategoryTotal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -36,16 +38,13 @@ public class CategoryService {
         return new CategoryTotal(savedCategoryLarge, savedCategoryMiddle, savedCategorySmall);
     }
 
-
     public CategoryLarge findCategoryLarge(Long categoryLargeIdx) {
-        return categoryLargeRepository.findById(categoryLargeIdx).get();
+        return categoryLargeRepository.findById(categoryLargeIdx).orElseThrow(() -> new CategoryNotFoundException("categoryLarge"));
     }
-
     public CategoryMiddle findCategoryMiddle(Long categoryMiddleIdx) {
-        return categoryMiddleRepository.findById(categoryMiddleIdx).get();
+        return categoryMiddleRepository.findById(categoryMiddleIdx).orElseThrow(() -> new CategoryNotFoundException("categoryMiddle"));
     }
-
     public CategorySmall findCategorySmall(Long categorySmallIdx) {
-        return categorySmallRepository.findById(categorySmallIdx).get();
+        return categorySmallRepository.findById(categorySmallIdx).orElseThrow(() -> new CategoryNotFoundException("categorySmall"));
     }
 }

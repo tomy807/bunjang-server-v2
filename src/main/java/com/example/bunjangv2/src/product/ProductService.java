@@ -4,9 +4,11 @@ import com.example.bunjangv2.entity.*;
 import com.example.bunjangv2.src.address.AddressRepository;
 import com.example.bunjangv2.src.category.CategoryService;
 import com.example.bunjangv2.src.product.dto.ProductDto;
+import com.example.bunjangv2.src.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
@@ -20,36 +22,32 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryService categoryService;
     private final AddressRepository addressRepository;
+    private final UserRepository userRepository;
 
+    @Transactional
     public void createProduct(ProductDto productDto, User user) {
 
         CategoryLarge categoryLarge = categoryService.findCategoryLarge(productDto.getCategoryLarge());
         CategoryMiddle categoryMiddle = categoryService.findCategoryMiddle(productDto.getCategoryMiddle());
         CategorySmall categorySmall = categoryService.findCategorySmall(productDto.getCategorySmall());
+        user= userRepository.findById(user.getId()).get();
+        List<Address> addresses = user.getAddresses();
 
-        String directAddress;
-
-        Optional<Address> directAddressOP = addressRepository.findAddressByUserAndMainAndAddressType(user, "MAIN", "DIRECT");
-        if (directAddressOP.isEmpty()) {
-            directAddress = "지역정보없음";
-        } else {
-            directAddress = directAddressOP.get().getAddress();
+        String directAddress = "지역정보없음";
+        for (Address address : addresses) {
+            if (address.getMain().equals("MAIN") && address.getAddressType().equals("DIRECT")) {
+                directAddress = address.getAddress();
+                break;
+            }
         }
+//        Optional<Address> directAddressOP = addressRepository.findAddressByUserAndMainAndAddressType(user, "MAIN", "DIRECT");
+//        if (directAddressOP.isEmpty()) {
+//            directAddress = "지역정보없음";
+//        } else {
+//            directAddress = directAddressOP.get().getAddress();
+//        }
+        Product product = Product.createProduct(productDto, categoryLarge, categoryMiddle, categorySmall, user, directAddress);
 
-        Product product = Product.builder().user(user)
-                .title(productDto.getTitle())
-                .productStatus(productDto.getProductStatus())
-                .categoryLarge(categoryLarge)
-                .categoryMiddle(categoryMiddle)
-                .categorySmall(categorySmall)
-                .exchangePossible(productDto.getExchangePossible())
-                .introduction(productDto.getIntroduction())
-                .price(productDto.getPrice())
-                .quantity(productDto.getQuantity())
-                .securePayment(productDto.getSecurePayment())
-                .shippingFee(productDto.getShippingFee())
-                .directAddress(directAddress)
-                .build();
 
         productRepository.save(product);
     }
