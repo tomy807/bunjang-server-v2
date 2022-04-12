@@ -100,7 +100,7 @@ public class UserService {
     public List<MyPageDto.MyPurchaseOrder> getPurchaseList(User user) {
         user = userRepository.getById(user.getId());
         List<Order> orders = orderRepository.findByUser(user);
-//        List<MyPageDto.MyPurchase> purchaseList = orderRepository.findMyPurchaseList(user.getId());
+//        List<MyPageDto.MyPurchaseOrder> purchaseList = orderRepository.findMyPurchaseList(user.getId());
 //        return purchaseList;
         return orders.stream().map(MyPageDto.MyPurchaseOrder::new).collect(Collectors.toList());
     }

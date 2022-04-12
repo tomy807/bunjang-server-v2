@@ -34,7 +34,13 @@ public class ShopController {
 
     @GetMapping("/followings")
     public ResponseEntity getFollowings(@PathVariable Long shopIdx) {
-        List<ShopDto.Following> followings = shopService.getFollowings(shopIdx);
+        List<ShopDto.Follow> followings = shopService.getFollowings(shopIdx);
         return ResponseEntity.ok(followings);
+    }
+
+    @GetMapping("/followers")
+    public ResponseEntity getFollowers(@PathVariable Long shopIdx) {
+        List<ShopDto.Follow> followers = shopService.getFollowers(shopIdx);
+        return ResponseEntity.ok(followers);
     }
 }

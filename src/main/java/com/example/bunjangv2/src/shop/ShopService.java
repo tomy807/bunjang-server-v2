@@ -1,6 +1,5 @@
 package com.example.bunjangv2.src.shop;
 
-import com.example.bunjangv2.entity.Follow;
 import com.example.bunjangv2.entity.Product;
 import com.example.bunjangv2.entity.User;
 import com.example.bunjangv2.src.product.ProductRepository;
@@ -10,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +21,7 @@ public class ShopService {
 
     public ShopDto getShop(Long shopIdx) {
 
-        User user = userRepository.findById(shopIdx).orElseThrow(EntityNotFoundException::new);
+        User user = getUser(shopIdx);
         List<Product> products = user.getProducts().stream()
                 .filter(product -> product.getSellStatus().equals("SELLING"))
                 .collect(Collectors.toList());
@@ -31,7 +29,7 @@ public class ShopService {
     }
 
     public List<ShopDto.ProductByShop> getProducts(Long shopIdx) {
-        User user = userRepository.findById(shopIdx).orElseThrow(EntityNotFoundException::new);
+        User user = getUser(shopIdx);
         List<Product> products = user.getProducts().stream()
                 .filter(product -> product.getSellStatus().equals("SELLING"))
                 .collect(Collectors.toList());
@@ -39,11 +37,27 @@ public class ShopService {
 
     }
 
-    public List<ShopDto.Following> getFollowings(Long shopIdx) {
-        User user = userRepository.findById(shopIdx).orElseThrow(EntityNotFoundException::new);
-        List<Follow> followings = user.getFollowings();
+    public List<ShopDto.Follow> getFollowings(Long shopIdx) {
+        User user = getUser(shopIdx);
+        List<com.example.bunjangv2.entity.Follow> followings = user.getFollowings();
 
-        return followings.stream().map(Follow::getToUser).map(ShopDto.Following::new).collect(Collectors.toList());
+        return followings.stream().map(com.example.bunjangv2.entity.Follow::getToUser).map(ShopDto.Follow::new).collect(Collectors.toList());
 
     }
+
+
+    public List<ShopDto.Follow> getFollowers(Long shopIdx) {
+
+        User user = getUser(shopIdx);
+        List<com.example.bunjangv2.entity.Follow> followings = user.getFollowers();
+
+        return followings.stream().map(com.example.bunjangv2.entity.Follow::getFromUser).map(ShopDto.Follow::new).collect(Collectors.toList());
+
+
+    }
+
+    private User getUser(Long shopIdx) {
+        return userRepository.findById(shopIdx).orElseThrow(() -> new EntityNotFoundException("해당 유저를 찾을수 없습니다"));
+    }
+
 }

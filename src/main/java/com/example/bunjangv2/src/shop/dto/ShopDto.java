@@ -53,7 +53,7 @@ public class ShopDto {
 
     @Data
     @AllArgsConstructor
-    public static class Following {
+    public static class Follow {
 
         private Long userIdx;
 
@@ -65,7 +65,7 @@ public class ShopDto {
 
         private List<ProductByShop> products;
 
-        public Following(User user) {
+        public Follow(User user) {
             this.userIdx = user.getId();
             this.shopName = user.getShopName();
             this.productCount = (int) user.getProducts().stream().filter(product -> product.getSellStatus().equals("SELLING")).count();

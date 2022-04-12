@@ -17,10 +17,10 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     List<Order> findByProduct_User(User user);
 
-//    @Query(value = "select new com.example.bunjangv2.src.user.dto.MyPageDto.MyPurchase(o.id,o.orderStatus,p.title,p.price,u.shopName,p.securePayment,o.createdDate) " +
+//    @Query(value = "select new com.example.bunjangv2.src.user.dto.MyPageDto.MyPurchaseOrder(o.id,o.orderStatus,p.title,p.price,u.shopName,p.securePayment,o.createdDate) " +
 //            "from Orders o " +
 //            "join o.product p " +
 //            "join p.user u " +
-//            "where o.user.id=:userIdx")
-//    List<MyPageDto.MyPurchase> findMyPurchaseList(@Param("userIdx") Long userIdx);
+//            "where o.user.id=:#{#userIdx}")
+//    List<MyPageDto.MyPurchaseOrder> findMyPurchaseList(@Param("userIdx") Long userIdx);
 }

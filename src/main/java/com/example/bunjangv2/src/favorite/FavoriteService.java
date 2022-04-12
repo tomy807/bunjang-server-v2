@@ -3,6 +3,7 @@ package com.example.bunjangv2.src.favorite;
 import com.example.bunjangv2.entity.Favorite;
 import com.example.bunjangv2.entity.Product;
 import com.example.bunjangv2.entity.User;
+import com.example.bunjangv2.src.favorite.dto.FavoriteDto;
 import com.example.bunjangv2.src.product.ProductRepository;
 import com.example.bunjangv2.src.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -45,5 +46,11 @@ public class FavoriteService {
         }
 
         return "찜 목록에서 지웠습니다.";
+    }
+
+    public List<FavoriteDto> getFavorites(User user) {
+
+        user = userRepository.findByIdx(user.getId());
+        return favoriteRepository.findFavorites(user);
     }
 }
