@@ -1,10 +1,12 @@
 package com.example.bunjangv2.src.follow;
 
 
+import com.example.bunjangv2.entity.User;
 import com.example.bunjangv2.src.follow.dto.FollowDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,8 +18,8 @@ public class FollowController {
     private final FollowService followService;
 
     @PostMapping("/follow/{toUserId}")
-    public ResponseEntity followUser(@PathVariable Long toUserId, Authentication authentication) {
-        followService.followUser(toUserId, authentication.getName());
+    public ResponseEntity followUser(@PathVariable Long toUserId, @AuthenticationPrincipal User user) {
+        followService.followUser(toUserId, user.getName());
         return ResponseEntity.ok("success");
     }
 

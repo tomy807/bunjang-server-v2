@@ -3,8 +3,12 @@ package com.example.bunjangv2.src.user;
 import com.example.bunjangv2.config.BaseResponse;
 import com.example.bunjangv2.entity.User;
 import com.example.bunjangv2.exception.ParameterException;
+import com.example.bunjangv2.src.favorite.FavoriteController;
 import com.example.bunjangv2.src.user.dto.MyPageDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -12,6 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import java.util.List;
 
@@ -23,10 +29,16 @@ public class MyPageController {
     private final UserService userService;
 
     @GetMapping("")
-    public ResponseEntity<BaseResponse> getMyPage(@AuthenticationPrincipal User user) {
+    public EntityModel<MyPageDto.UserInfo> getMyPage(@AuthenticationPrincipal User user) {
 
         MyPageDto.UserInfo myPage = userService.getMyPage(user);
-        return ResponseEntity.ok(new BaseResponse(myPage));
+
+//        ResponseEntity response = new ResponseEntity(HttpStatus.OK);
+        EntityModel<MyPageDto.UserInfo> response = EntityModel.of(myPage);
+        WebMvcLinkBuilder linkTo = linkTo(methodOn(FavoriteController.class).getFavorites(user));
+        response.add(linkTo.withRel("favorite"));
+        return response;
+//        return ResponseEntity.ok(new BaseResponse(myPage));
     }
 
     @GetMapping("/products")
