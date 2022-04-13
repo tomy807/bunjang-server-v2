@@ -2,6 +2,7 @@ package com.example.bunjangv2.entity;
 
 
 import com.example.bunjangv2.src.product.dto.ProductDto;
+import com.example.bunjangv2.src.product.dto.ProductPostDto;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -69,7 +70,7 @@ public class Product extends BaseTimeEntity {
     @Column(length = 30, columnDefinition = "varchar(30) DEFAULT '지역 정보 없음'")
     private String directAddress;
 
-    public static Product createProduct(ProductDto productDto, CategoryLarge categoryLarge, CategoryMiddle categoryMiddle, CategorySmall categorySmall, User user,String directAddress) {
+    public static Product createProduct(ProductPostDto productDto, CategoryLarge categoryLarge, CategoryMiddle categoryMiddle, CategorySmall categorySmall, User user, String directAddress) {
         Product product = new Product();
         product.setUser(user);
         product.setCategoryLarge(categoryLarge);
@@ -79,10 +80,8 @@ public class Product extends BaseTimeEntity {
         product.setProductStatus(productDto.getProductStatus());
         product.setExchangePossible(productDto.getExchangePossible());
         product.setPrice(productDto.getPrice());
-        product.setShippingFee(productDto.getShippingFee());
         product.setIntroduction(productDto.getIntroduction());
         product.setQuantity(productDto.getQuantity());
-        product.setSellStatus(productDto.getSellStatus());
         product.setSecurePayment(productDto.getSecurePayment());
         product.setDirectAddress(directAddress);
         return product;

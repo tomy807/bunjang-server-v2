@@ -15,7 +15,7 @@ public class BaseResponse<T> {
     private final Boolean isSuccess;
     private final String message;
     private final int code;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+//    @JsonInclude(JsonInclude.Include.NON_NULL)
     private T result;
 
     public BaseResponse(T result) {

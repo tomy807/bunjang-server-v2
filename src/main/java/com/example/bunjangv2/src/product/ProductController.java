@@ -2,9 +2,11 @@ package com.example.bunjangv2.src.product;
 
 import com.example.bunjangv2.entity.User;
 import com.example.bunjangv2.src.product.dto.ProductDto;
+import com.example.bunjangv2.src.product.dto.ProductPostDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -18,9 +20,12 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping("")
-    public ResponseEntity postProduct(@Valid @RequestBody ProductDto productDto, @AuthenticationPrincipal User user) {
+    public ResponseEntity postProduct(@Valid @RequestBody ProductPostDto productDto) {
 
-        productService.createProduct(productDto, user);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User)authentication.getPrincipal();
+        productService.createProduct(productDto, user.getId());
 
         return ResponseEntity.ok("success");
 

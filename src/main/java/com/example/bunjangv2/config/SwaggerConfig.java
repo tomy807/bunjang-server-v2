@@ -22,7 +22,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
 
     @Bean
     public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2).ignoredParameterTypes(AuthenticationPrincipal.class);
+        return new Docket(DocumentationType.SWAGGER_2);
     }
 
 }

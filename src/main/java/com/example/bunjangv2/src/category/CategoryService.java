@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class CategoryService {
 
     private final CategoryLargeRepository categoryLargeRepository;

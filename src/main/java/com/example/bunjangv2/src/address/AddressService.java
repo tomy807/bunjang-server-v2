@@ -6,6 +6,7 @@ import com.example.bunjangv2.exception.LimitAddressCount;
 import com.example.bunjangv2.src.address.dto.DeliveryAddressDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -15,6 +16,7 @@ public class AddressService {
 
     private final AddressRepository addressRepository;
 
+    @Transactional
     public void createDeliveryAddress(DeliveryAddressDto deliveryAddressDto, User user) {
 
         if (addressRepository.countAddressByAddressType("DELIVERY") == 3) {
@@ -36,6 +38,7 @@ public class AddressService {
         addressRepository.save(address);
     }
 
+    @Transactional
     public void createDirectAddress(DeliveryAddressDto deliveryAddressDto, User user) {
         if (addressRepository.countAddressByAddressType("DIRECT") == 3) {
             throw new LimitAddressCount();

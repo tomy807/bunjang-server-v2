@@ -7,6 +7,7 @@ import com.example.bunjangv2.src.shop.dto.ShopDto;
 import com.example.bunjangv2.src.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ShopService {
 
     private final UserRepository userRepository;

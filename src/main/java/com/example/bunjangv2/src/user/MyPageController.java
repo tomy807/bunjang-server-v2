@@ -8,18 +8,18 @@ import com.example.bunjangv2.src.user.dto.MyPageDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
-
 import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,20 +29,27 @@ public class MyPageController {
     private final UserService userService;
 
     @GetMapping("")
-    public EntityModel<MyPageDto.UserInfo> getMyPage(@AuthenticationPrincipal User user) {
+    public EntityModel<MyPageDto.UserInfo> getMyPage() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User)authentication.getPrincipal();
 
         MyPageDto.UserInfo myPage = userService.getMyPage(user);
 
+
+
 //        ResponseEntity response = new ResponseEntity(HttpStatus.OK);
         EntityModel<MyPageDto.UserInfo> response = EntityModel.of(myPage);
-        WebMvcLinkBuilder linkTo = linkTo(methodOn(FavoriteController.class).getFavorites(user));
+        WebMvcLinkBuilder linkTo = linkTo(methodOn(FavoriteController.class).getFavorite());
         response.add(linkTo.withRel("favorite"));
         return response;
 //        return ResponseEntity.ok(new BaseResponse(myPage));
     }
 
     @GetMapping("/products")
-    public ResponseEntity<BaseResponse> getMyProducts(@AuthenticationPrincipal User user, @RequestParam(required = false) String status) {
+    public ResponseEntity<BaseResponse> getMyProducts(@RequestParam(required = false) String status) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User)authentication.getPrincipal();
         if (status == null || status.isEmpty()) {
             throw new ParameterException("status");
         }
@@ -52,7 +59,10 @@ public class MyPageController {
     }
 
     @GetMapping("/followers")
-    public ResponseEntity<BaseResponse> getMyFollowers(@AuthenticationPrincipal User user) {
+    public ResponseEntity<BaseResponse> getMyFollowers() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User)authentication.getPrincipal();
 
         List<MyPageDto.MyFollower> myFollowers = userService.getMyFollowers(user);
 
@@ -60,7 +70,10 @@ public class MyPageController {
     }
 
     @GetMapping("/followings")
-    public ResponseEntity<BaseResponse> getMyFollowings(@AuthenticationPrincipal User user) {
+    public ResponseEntity<BaseResponse> getMyFollowings() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User)authentication.getPrincipal();
 
         List<MyPageDto.MyFollowing> myFollowers = userService.getMyFollowings(user);
 
@@ -68,7 +81,10 @@ public class MyPageController {
     }
 
     @GetMapping("/purchase")
-    public ResponseEntity<BaseResponse> getPurchaseList(@AuthenticationPrincipal User user) {
+    public ResponseEntity<BaseResponse> getPurchaseList() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User)authentication.getPrincipal();
 
         List<MyPageDto.MyPurchaseOrder> purchaseList = userService.getPurchaseList(user);
 

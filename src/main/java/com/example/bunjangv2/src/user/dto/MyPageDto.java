@@ -12,11 +12,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 @Data
 public class MyPageDto {
 
-    @AllArgsConstructor
     @Data
     public static class UserInfo{
 
@@ -35,7 +33,6 @@ public class MyPageDto {
             this.followingCount = user.getFollowings().size();
         }
     }
-    @AllArgsConstructor
     @Data
     public static class MyProducts {
 
@@ -51,7 +48,6 @@ public class MyPageDto {
             this.products = products.stream().map(MyProduct::new).collect(Collectors.toList());
         }
 
-        @AllArgsConstructor
         @Data
         private static class MyProduct {
 

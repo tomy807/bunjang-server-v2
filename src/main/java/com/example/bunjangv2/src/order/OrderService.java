@@ -21,13 +21,13 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class OrderService {
 
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
 
-    @Transactional
     public void createOrder(OrderDto orderDto, User user) {
         Product product = productRepository.findById(
                 orderDto.getProductId()).orElseThrow(() -> new EntityNotFoundException("해당 상품을 찾을수 없습니다."));

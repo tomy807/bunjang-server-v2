@@ -1,12 +1,13 @@
 package com.example.bunjangv2.src.address.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
 
-@AllArgsConstructor
-@Data
+
+@Getter
+@Setter
+@NoArgsConstructor
 public class DeliveryAddressDto {
 
     @NotEmpty(message = "주소를 입력해주세요")

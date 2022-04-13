@@ -6,8 +6,11 @@ import com.example.bunjangv2.src.follow.dto.FollowDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -18,8 +21,11 @@ public class FollowController {
     private final FollowService followService;
 
     @PostMapping("/follow/{toUserId}")
-    public ResponseEntity followUser(@PathVariable Long toUserId, @AuthenticationPrincipal User user) {
-        followService.followUser(toUserId, user.getName());
+    public ResponseEntity followUser(@PathVariable Long toUserId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User)authentication.getPrincipal();
+        followService.followUser(toUserId, user);
+
         return ResponseEntity.ok("success");
     }
 

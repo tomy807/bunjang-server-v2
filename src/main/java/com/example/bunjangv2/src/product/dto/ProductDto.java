@@ -5,19 +5,14 @@ import com.example.bunjangv2.entity.Product;
 import com.example.bunjangv2.entity.User;
 import com.example.bunjangv2.src.user.dto.UserDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.modelmapper.ModelMapper;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
 public class ProductDto {
 
@@ -54,11 +49,7 @@ public class ProductDto {
 
     private String directAddress;
 
-    private static ModelMapper modelMapper = new ModelMapper();
 
-    public static ProductDto of(Product product) {
-        return modelMapper.map(product, ProductDto.class);
-    }
 
     public ProductDto (Product product) {
         User user = product.getUser();

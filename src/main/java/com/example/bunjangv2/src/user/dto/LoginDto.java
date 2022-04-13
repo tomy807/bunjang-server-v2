@@ -8,7 +8,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 @Data
-@AllArgsConstructor
 public class LoginDto {
 
     @NotEmpty(message = "이메일를 입력해주세요")

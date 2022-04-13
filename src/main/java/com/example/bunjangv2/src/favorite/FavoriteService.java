@@ -15,13 +15,13 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class FavoriteService {
 
     private final FavoriteRepository favoriteRepository;
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
 
-    @Transactional
     public String  exchangeFavorite(Long productIdx, User user) {
 
         Product product = productRepository.findById(productIdx).orElseThrow(() -> new EntityNotFoundException("해당 상품을 찾을수 없습니다."));

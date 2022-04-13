@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserService {
 
     private final UserRepository userRepository;
@@ -31,7 +32,6 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
 
-    @Transactional
     public void join(SignDto signDto) {
 
         if (userRepository.findByEmail(signDto.getEmail()).isPresent()) {
@@ -47,7 +47,6 @@ public class UserService {
         userRepository.save(user);
     }
 
-    @Transactional
     public LoginResDto login(LoginDto loginDto) {
         User user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(() -> new IllegalArgumentException("가입되지 않은 E-MAIL 입니다."));
         if (!passwordEncoder.matches(loginDto.getPassword(), user.getPassword())) {
@@ -58,10 +57,8 @@ public class UserService {
         return new LoginResDto(token, user.getId());
     }
 
-
     public MyPageDto.UserInfo getMyPage(User user) {
-
-        user = userRepository.getById(user.getId());
+        user = userRepository.findByIdx(user.getId());
         return new MyPageDto.UserInfo(user);
     }
 

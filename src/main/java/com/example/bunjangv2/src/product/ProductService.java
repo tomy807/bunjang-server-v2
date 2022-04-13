@@ -4,6 +4,7 @@ import com.example.bunjangv2.entity.*;
 import com.example.bunjangv2.src.address.AddressRepository;
 import com.example.bunjangv2.src.category.CategoryService;
 import com.example.bunjangv2.src.product.dto.ProductDto;
+import com.example.bunjangv2.src.product.dto.ProductPostDto;
 import com.example.bunjangv2.src.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -17,6 +18,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class ProductService {
 
     private final ProductRepository productRepository;
@@ -24,13 +26,12 @@ public class ProductService {
     private final AddressRepository addressRepository;
     private final UserRepository userRepository;
 
-    @Transactional
-    public void createProduct(ProductDto productDto, User user) {
+    public void createProduct(ProductPostDto productDto, Long userIdx) {
 
         CategoryLarge categoryLarge = categoryService.findCategoryLarge(productDto.getCategoryLarge());
         CategoryMiddle categoryMiddle = categoryService.findCategoryMiddle(productDto.getCategoryMiddle());
         CategorySmall categorySmall = categoryService.findCategorySmall(productDto.getCategorySmall());
-        user= userRepository.findById(user.getId()).get();
+        User user= userRepository.findById(userIdx).get();
         List<Address> addresses = user.getAddresses();
 
         String directAddress = "지역정보없음";
@@ -51,7 +52,6 @@ public class ProductService {
 
         productRepository.save(product);
     }
-
     public List<ProductDto> getProducts() {
 
         List<Product> products = productRepository.findAll();

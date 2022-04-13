@@ -6,6 +6,7 @@ import com.example.bunjangv2.src.follow.dto.FollowDto;
 import com.example.bunjangv2.src.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
@@ -18,13 +19,14 @@ public class FollowService {
     private final FollowRepository followRepository;
     private final UserRepository userRepository;
 
-    public void followUser(Long toUserId, String name) {
+    @Transactional
+    public void followUser(Long toUserId, User fromUser) {
 
-        User fromUser = userRepository.findByEmail(name).orElseThrow(() -> new EntityNotFoundException("유저를 찾을수 없습니다."));
+        fromUser = userRepository.findByEmail(fromUser.getEmail()).orElseThrow(() -> new EntityNotFoundException("유저를 찾을수 없습니다."));
         User toUser = userRepository.findById(toUserId).orElseThrow(() -> new EntityNotFoundException("팔로우할 유저를 찾을수 없습니다."));
         followRepository.save(new Follow(fromUser, toUser));
     }
-
+    @Transactional
     public List<FollowDto> getFollowings(Long userIdx) {
 
         User user = userRepository.findById(userIdx).get();
@@ -38,7 +40,7 @@ public class FollowService {
         }
         return followingList;
     }
-
+    @Transactional
     public List<FollowDto> getFollowers(Long userIdx) {
 
         User user = userRepository.findById(userIdx).get();
