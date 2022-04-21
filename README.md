@@ -4,7 +4,7 @@ ERD는 핵심적인 테이블만 남겨두고 나머지는 제외하였다.
 - jdbcTemplate을 jpa로 바꿀것
 - RestControllerAdvice를 사용하여 지저분한 try-catch문을 대거 삭제할것
 - AOP를 적용하여 트랜잭션들이 어떻게 작동하는지 화살표로 나타낼것
-- JWT 관련 오류들을 Filter에서 처리할수 있도록 할 예정
+- JWT 관련 예외처리들을 Filter에서 처리할수 있도록 할 예정
 - authentication를 이용하여 로그인한 사용자 정보 가져올것
 - Redies,jenkins,kafka 사용해볼것
 - swagger 적용
