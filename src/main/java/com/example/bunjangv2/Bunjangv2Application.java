@@ -1,5 +1,7 @@
 package com.example.bunjangv2;
 
+import com.example.bunjangv2.trace.LogTrace;
+import com.example.bunjangv2.trace.ThreadLocalLogTrace;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,5 +18,10 @@ public class Bunjangv2Application {
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();
+    }
+
+    @Bean
+    public LogTrace logTrace() {
+        return new ThreadLocalLogTrace();
     }
 }

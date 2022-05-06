@@ -1,6 +1,7 @@
 package com.example.bunjangv2.entity;
 
 import com.example.bunjangv2.src.address.dto.DeliveryAddressDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,6 +22,7 @@ public class Address extends BaseTimeEntity {
     @Column(name = "address_id")
     private Long id;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;

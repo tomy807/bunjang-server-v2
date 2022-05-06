@@ -3,6 +3,7 @@ package com.example.bunjangv2.entity;
 
 import com.example.bunjangv2.src.product.dto.ProductDto;
 import com.example.bunjangv2.src.product.dto.ProductPostDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -23,19 +24,23 @@ public class Product extends BaseTimeEntity {
     @Column(name = "product_id")
     private Long id;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_large_id")
     private CategoryLarge categoryLarge;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_middle_id")
     private CategoryMiddle categoryMiddle;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_small_id")
     private CategorySmall categorySmall;

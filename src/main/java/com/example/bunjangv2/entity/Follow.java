@@ -1,5 +1,6 @@
 package com.example.bunjangv2.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,10 +18,12 @@ public class Follow {
     @Column(name = "follow_id")
     private Long id;
 
+    @JsonIgnore
     @JoinColumn(name = "from_user_id")
     @ManyToOne
     private User fromUser;
 
+    @JsonIgnore
     @JoinColumn(name = "to_user_id")
     @ManyToOne
     private User toUser;
